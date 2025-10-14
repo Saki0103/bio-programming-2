@@ -26,6 +26,7 @@ int main(void){
         error = b1-a1;
         count1++;
         if(error<allowable_error){
+            cout << "x = " << c1 << endl;
             cout << "count = " << count1 << endl;
         }
     }
@@ -44,6 +45,7 @@ int main(void){
         error = b2-a2;
         count2++;
         if(error<allowable_error){
+            cout << "x = " << c2 << endl;
             cout << "count = " << count2 << endl;
         }
     }
