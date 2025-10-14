@@ -24,8 +24,12 @@ int main(void){
         }
     }
 
+    error = 1;
+    count = 0;
+
     while(error>allowable_error){
-        double y_n = y - 3*y;
+        double y_nn = (2/3)*(cbrt(cbrt(y)));
+        double y_n = y_nn*y_nn*y_nn*y_nn*y_nn*y_nn*y_nn*y_nn*y_nn;
         if(y_n>x){
             error = y_n - y;
         }else{
