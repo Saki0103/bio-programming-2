@@ -14,7 +14,7 @@ int board[50][50] = {0};
 int next_board[50][50] = {0};
 
 int main(void){
-    ofstream file("output.txt");
+    ofstream file("output_kadai2.txt");
 
     if(!file){
             cerr << "Cannot open the file." << endl;
@@ -93,19 +93,12 @@ int main(void){
                     }
                 }
 
-                if(board[i][j]==S){
-                    uniform_int_distribution<> dist1(0, 4);//0~4のうち0が選択される確率は0.2
-                    int percent1 = dist1(mt);
-                    if(percent1 == 0){
-                        next_board[i][j] = V;//0.2の確率で状態SはVに移行
-                    }else{
-                        next_board[i][j] = S;
-                    }
-                }else if(board[i][j]==S && I_count==1){
+                
+                if(board[i][j]==S && I_count==1){
                     uniform_int_distribution<> dist2(0, 9);//0~9のうち0~2が選択される確率は0.3
                     int percent2 = dist2(mt);
                     if(percent2 <= 2){
-                        next_board[i][j] = I;
+                        next_board[i][j] = I;//0.3の確率で状態SはIに移行
                     }else{
                         next_board[i][j] = S;
                     }
@@ -118,6 +111,14 @@ int main(void){
                     else{
                         next_board[i][j] = S;
                     }
+                }else if(board[i][j]==S){
+                    uniform_int_distribution<> dist1(0, 4);//0~4のうち0が選択される確率は0.2
+                    int percent1 = dist1(mt);
+                    if(percent1 == 0){
+                        next_board[i][j] = V;//0.2の確率で状態SはVに移行
+                    }else{
+                        next_board[i][j] = S;
+                    }
                 }
                 if(board[i][j]==I){
                     uniform_int_distribution<> dist4(0, 99);//0~99のうち0~4が選択される確率は0.05
@@ -125,7 +126,7 @@ int main(void){
                     uniform_int_distribution<> dist5(0, 99);//0~99のうち0が選択される確率は0.01
                     int percent5 = dist5(mt);
                     if(percent4 <= 4){
-                        next_board[i][j] = R;
+                        next_board[i][j] = R;//0.05の確率で状態IはRに移行
                     }else if(percent5 == 0){
                         next_board[i][j] = D;//0.01の確率で状態IはDに移行
                     }else{
@@ -138,7 +139,7 @@ int main(void){
                     uniform_int_distribution<> dist6(0, 99);//0~99のうち0が選択される確率は0.01
                     int percent6 = dist6(mt);
                     if(percent6 == 0){
-                        next_board[i][j] = S;//0.01の確率で状態RはSに戻る
+                        next_board[i][j] = S;//0.01の確率で状態RはSになる
                     }else{
                         next_board[i][j] = R;
                     }
@@ -156,7 +157,17 @@ int main(void){
                     next_board[i][j] = V;
                 }
                 if(board[i][j]==VI){
+                    uniform_int_distribution<> dist8(0, 9);//0~9のうち0が選択される確率は0.1
+                    int percent8 = dist8(mt);
+                    uniform_int_distribution<> dist9(0, 199);//0~199のうち0が選択される確率は0.005
+                    int percent9 = dist9(mt);
+                    if(percent8 == 0){
+                        next_board[i][j] = R;//0.1の確率で状態VIはRになる
+                    }else if(percent9 == 0){
+                        next_board[i][j] = D;//0.005の確率で状態VIはDになる
+                    }else{
                     next_board[i][j] = VI;
+                    }
                 }
             }
         }
