@@ -1,0 +1,297 @@
+Time: 1
+S:495 I:5 R:0
+Time: 2
+S:488 I:12 R:0
+Time: 3
+S:476 I:24 R:0
+Time: 4
+S:461 I:37 R:2
+Time: 5
+S:444 I:53 R:3
+Time: 6
+S:421 I:72 R:7
+Time: 7
+S:392 I:98 R:10Time: 8
+S:393 I:93 R:14
+Time: 9
+S:380 I:101 R:19
+Time: 10
+S:367 I:113 R:20
+Time: 11
+S:346 I:131 R:23
+Time: 12
+S:330 I:144 R:26
+Time: 13
+S:313 I:153 R:34
+Time: 14
+S:288 I:173 R:39
+Time: 15
+S:263 I:189 R:48
+Time: 16
+S:238 I:205 R:57
+Time: 17
+S:208 I:218 R:74
+Time: 18
+S:178 I:237 R:85
+Time: 19
+S:154 I:242 R:104
+Time: 20
+S:147 I:238 R:115
+Time: 21
+S:134 I:240 R:126
+Time: 22
+S:131 I:237 R:132
+Time: 23
+S:126 I:231 R:143
+Time: 24
+S:122 I:224 R:154
+Time: 25
+S:116 I:221 R:163
+Time: 26
+S:114 I:212 R:174
+Time: 27
+S:110 I:200 R:190
+Time: 28
+S:104 I:197 R:199
+Time: 29
+S:98 I:196 R:206
+Time: 30
+S:89 I:193 R:218
+Time: 31
+S:84 I:189 R:227
+Time: 32
+S:75 I:182 R:243
+Time: 33
+S:68 I:181 R:251
+Time: 34
+S:57 I:185 R:258
+Time: 35
+S:38 I:194 R:268
+Time: 36
+S:24 I:196 R:280
+Time: 37
+S:8 I:200 R:292
+Time: 38
+S:5 I:195 R:300
+Time: 39
+S:3 I:186 R:311
+Time: 40
+S:3 I:180 R:317
+Time: 41
+S:3 I:170 R:327
+Time: 42
+S:3 I:159 R:338
+Time: 43
+S:2 I:153 R:345
+Time: 44
+S:2 I:143 R:355
+Time: 45
+S:2 I:138 R:360
+Time: 46
+S:2 I:133 R:365
+Time: 47
+S:2 I:125 R:373
+Time: 48
+S:2 I:117 R:381
+Time: 49
+S:0 I:111 R:389
+Time: 50
+S:0 I:106 R:394
+Time: 51
+S:0 I:103 R:397
+Time: 52
+S:0 I:98 R:402
+Time: 53
+S:0 I:86 R:414
+Time: 54
+S:0 I:81 R:419
+Time: 55
+S:0 I:75 R:425
+Time: 56
+S:0 I:75 R:425
+Time: 57
+S:0 I:70 R:430
+Time: 58
+S:0 I:63 R:437
+Time: 59
+S:0 I:57 R:443
+Time: 60
+S:0 I:56 R:444
+Time: 61
+S:0 I:53 R:447
+Time: 62
+S:0 I:50 R:450
+Time: 63
+S:0 I:50 R:450
+Time: 64
+S:0 I:45 R:455
+Time: 65
+S:0 I:44 R:456
+Time: 66
+S:0 I:42 R:458
+Time: 67
+S:0 I:39 R:461
+Time: 68
+S:0 I:36 R:464
+Time: 69
+S:0 I:34 R:466
+Time: 70
+S:0 I:32 R:468
+Time: 71
+S:0 I:32 R:468
+Time: 72
+S:0 I:28 R:472
+Time: 73
+S:0 I:26 R:474
+Time: 74
+S:0 I:25 R:475
+Time: 75
+S:0 I:24 R:476
+Time: 76
+S:0 I:23 R:477
+Time: 77
+S:0 I:23 R:477
+Time: 78
+S:0 I:21 R:479
+Time: 79
+S:0 I:20 R:480
+Time: 80
+S:0 I:20 R:480
+Time: 81
+S:0 I:20 R:480
+Time: 82
+S:0 I:19 R:481
+Time: 83
+S:0 I:19 R:481
+Time: 84
+S:0 I:19 R:481
+Time: 85
+S:0 I:16 R:484
+Time: 86
+S:0 I:15 R:485
+Time: 87
+S:0 I:15 R:485
+Time: 88
+S:0 I:13 R:487
+Time: 89
+S:0 I:11 R:489
+Time: 90
+S:0 I:11 R:489
+Time: 91
+S:0 I:11 R:489
+Time: 92
+S:0 I:9 R:491
+Time: 93
+S:0 I:9 R:491
+Time: 94
+S:0 I:9 R:491
+Time: 95
+S:0 I:9 R:491
+Time: 96
+S:0 I:8 R:492
+Time: 97
+S:0 I:6 R:494
+Time: 98
+S:0 I:6 R:494
+Time: 99
+S:0 I:6 R:494
+Time: 100
+S:0 I:6 R:494
+Time: 101
+S:0 I:6 R:494
+Time: 102
+S:0 I:6 R:494
+Time: 103
+S:0 I:6 R:494
+Time: 104
+S:0 I:5 R:495
+Time: 105
+S:0 I:4 R:496
+Time: 106
+S:0 I:4 R:496
+Time: 107
+S:0 I:3 R:497
+Time: 108
+S:0 I:3 R:497
+Time: 109
+S:0 I:3 R:497
+Time: 110
+S:0 I:3 R:497
+Time: 111
+S:0 I:2 R:498
+Time: 112
+S:0 I:2 R:498
+Time: 113
+S:0 I:2 R:498
+Time: 114
+S:0 I:2 R:498
+Time: 115
+S:0 I:2 R:498
+Time: 116
+S:0 I:2 R:498
+Time: 117
+S:0 I:2 R:498
+Time: 118
+S:0 I:2 R:498
+Time: 119
+S:0 I:2 R:498
+Time: 120
+S:0 I:1 R:499
+Time: 121
+S:0 I:1 R:499
+Time: 122
+S:0 I:1 R:499
+Time: 123
+S:0 I:1 R:499
+Time: 124
+S:0 I:1 R:499
+Time: 125
+S:0 I:1 R:499
+Time: 126
+S:0 I:1 R:499
+Time: 127
+S:0 I:1 R:499
+Time: 128
+S:0 I:1 R:499
+Time: 129
+S:0 I:1 R:499
+Time: 130
+S:0 I:1 R:499
+Time: 131
+S:0 I:1 R:499
+Time: 132
+S:0 I:1 R:499
+Time: 133
+S:0 I:1 R:499
+Time: 134
+S:0 I:1 R:499
+Time: 135
+S:0 I:1 R:499
+Time: 136
+S:0 I:1 R:499
+Time: 137
+S:0 I:1 R:499
+Time: 138
+S:0 I:1 R:499
+Time: 139
+S:0 I:1 R:499
+Time: 140
+S:0 I:1 R:499
+Time: 141
+S:0 I:1 R:499
+Time: 142
+S:0 I:1 R:499
+Time: 143
+S:0 I:1 R:499
+Time: 144
+S:0 I:1 R:499
+Time: 145
+S:0 I:1 R:499
+Time: 146
+S:0 I:1 R:499
+Time: 147
+S:0 I:1 R:499
+Time: 148
+S:0 I:1 R:499
+Time: 149
+S:0 I:0 R:500

@@ -1,0 +1,149 @@
+#include <iostream>
+#include <unistd.h>
+#include <vector>
+#include <random>
+#include <cmath>
+#include <fstream>
+using namespace std;
+
+#define PI 3.141592653589793
+
+enum State{
+    S=0,I,R
+};
+
+class Agent{
+    public:
+    double x;
+    double y;
+    int state;
+};
+
+int N = 500;
+
+int main(void){
+    ofstream file("output_kadai1.txt");
+
+    if(!file){
+            cerr << "Cannot open the file." << endl;
+            return 1;
+        }
+    
+    random_device rnd;
+    mt19937 mt(rnd());
+
+    uniform_real_distribution<> distance1(0.0, 100.0);
+
+    Agent agents[N];
+    for(int i=0; i<N; i++){
+        agents[i].x = distance1(mt);
+        agents[i].y = distance1(mt);
+        agents[i].state = S;
+    }
+
+    Agent next_agents[N];
+    for(int i=0; i<N; i++){
+        next_agents[i] = agents[i];
+    }
+
+    uniform_int_distribution<> agnt(0, N-1);
+
+    for(int i=0; i<5; i++){
+        int c = agnt(mt);
+        if(agents[c].state == I){
+            i--;
+        }else{
+            agents[c].state = I;
+        }
+    }
+
+    int time = 0;
+    int S_count_time = 0;
+    int I_count_time = 0;
+    int R_count_time = 0;
+    
+    double doublePI = 2 * PI;
+    uniform_real_distribution<> rad(0.0 ,doublePI);
+    uniform_real_distribution<> prb(0.0, 1.0);
+
+
+    while(true){
+        time++;
+
+        S_count_time = 0;
+        I_count_time = 0;
+        R_count_time = 0;
+    
+        file << "Time: " << time << endl;
+
+        for(int i=0; i<N; i++){
+           if(agents[i].state == S){
+                S_count_time++;
+            }else if(agents[i].state == I){
+                I_count_time++;
+            }else if(agents[i].state == R){
+                R_count_time++;
+            }
+        }
+        file << "S:" << S_count_time << " I:" << I_count_time << " R:" << R_count_time << endl;
+
+        if(I_count_time == 0){
+            break;
+        }
+
+        for(int i=0; i<N; i++){
+            double theta = rad(mt);
+            agents[i].x += cos(theta);
+            agents[i].y += sin(theta);
+
+            if(agents[i].x < 0.0){
+                agents[i].x += 100.0;
+            }else if(agents[i].x >= 100.0){
+                agents[i].x -= 100.0;
+            }
+
+            if(agents[i].y < 0.0){
+                agents[i].y += 100.0;
+            }else if(agents[i].y >= 100.0){
+                agents[i].y -= 100.0;
+            }
+            next_agents[i] = agents[i];
+        }
+
+        for(int i=0; i<N; i++){
+            int I_count = 0;
+            if(agents[i].state == S){
+                for(int j=0; j<N; j++){
+                    double distance = sqrt(pow(agents[i].x - agents[j].x, 2) + pow(agents[i].y - agents[j].y, 2));
+                    if(i != j && distance <= 6.0 && agents[j].state == I){
+                        I_count++;
+                    }
+                }
+                double probability = 1 - pow(0.7, I_count);
+                double occur_SI = prb(mt);
+                if(occur_SI<=probability){
+                    next_agents[i].state = I;
+                }else{
+                    next_agents[i].state = S;
+                }
+            }
+            if(agents[i].state == I){
+                double occur_IR = prb(mt);
+                if(occur_IR <= 0.05){
+                    next_agents[i].state = R;
+                }else{
+                    next_agents[i].state = I;
+                }
+            }
+            if(agents[i].state == R){
+                next_agents[i].state = R;
+            }
+        }
+        
+        for(int i=0; i<N; i++){
+            agents[i] = next_agents[i];
+        }
+    }
+    file.close();
+    return 0;
+}
