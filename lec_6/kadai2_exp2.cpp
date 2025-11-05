@@ -180,8 +180,6 @@ int main(void){
             }
         }
 
-        
-
         //感染の状態遷移
         for(int i=0; i<N; i++){
             int I_count = 0;
