@@ -9,7 +9,7 @@ using namespace std;
 #define PI 3.141592653589793
 
 enum State{
-    S=0,I,R
+    S=0,I,R,L
 };
 
 class Agent{
@@ -91,10 +91,26 @@ int main(void){
             break;
         }
 
+        if(I_count_time >= N*0.1){
+            for(int i=0; i<(N*0.7); i++){
+                int limit = agnt(mt);
+                if(next_agents[limit].state == L){
+                    i--;
+                }else{
+                    next_agents[limit].state = L;
+                }
+            }
+        }
+
         for(int i=0; i<N; i++){
             double theta = rad(mt);
-            agents[i].x += cos(theta);
-            agents[i].y += sin(theta);
+            if(next_agents[i].state == L){
+                agents[i].x += 0.1*cos(theta);
+                agents[i].y += 0.1*sin(theta);
+            }else{
+                agents[i].x += 1.0*cos(theta);
+                agents[i].y += 1.0*sin(theta);
+            }
 
             if(agents[i].x < 0.0){
                 agents[i].x += 100.0;
