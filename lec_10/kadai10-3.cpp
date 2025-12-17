@@ -1,12 +1,11 @@
 #include "image.hpp"
 #include <iostream>
-#include <math.h>
 
 using namespace std;
 typedef unsigned char uchar;
 
 int main(void){
-    Image sample("sample.png");
+    Image sample("stap.png");
     Image gray_img(sample.w, sample.h, 3);
     Image equalized_img(sample.w, sample.h, 3);
 
@@ -21,7 +20,7 @@ int main(void){
             }
         }
     }
-    gray_img.save("gray.png");
+    gray_img.save("stap_gray.png");
 
     int histogram[256] = {0};
 
@@ -52,7 +51,7 @@ int main(void){
         
     }
 
-    equalized_img.save("equalized.png");
+    equalized_img.save("stap_equalized.png");
 
     return 0;
 }
