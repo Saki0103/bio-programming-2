@@ -39,6 +39,7 @@ int main(void){
     LoadExpressionFile("gene_expression.txt", tissue_names, gene_names, expression_matrix);
 
     vector<double> expression_average(NUM_GENES, 0.0);
+    vector<double> ordered_average(NUM_GENES, 0.0);
 
     for(int i = 0; i < NUM_GENES; i++){
         for(int j = 0; j < NUM_TISSUES; j++){
@@ -46,4 +47,27 @@ int main(void){
         }
         expression_average[i] /= NUM_TISSUES;
     }
+    ordered_average = expression_average;
+    
+    double temp;
+    for(int i = 0; i < NUM_GENES; i++){
+        for(int j = i; j < NUM_GENES; j++){
+            if(ordered_average[i] <= ordered_average[j]){
+                temp = ordered_average[i];
+                ordered_average[i] = ordered_average[j];
+                ordered_average[j] = temp;
+            }
+        }
+    }
+
+    for(int j = 0; j < 5; j++){
+        for(int i = 0; i < NUM_GENES; i++){
+            if(ordered_average[j] == expression_average[i]){
+                cout << j+1 << " " << ordered_average[j] << " " << gene_names[i] << endl;
+                break;
+            }
+        }
+    }
+
+    return 0;
 }
