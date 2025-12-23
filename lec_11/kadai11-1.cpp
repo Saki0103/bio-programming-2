@@ -2,6 +2,7 @@
 #include <fstream>
 #include <vector>
 #include <string>
+#include <cmath>
 
 #define NUM_TISSUES 68
 #define NUM_GENES 19594
@@ -40,6 +41,8 @@ int main(void){
 
     vector<double> expression_average(NUM_GENES, 0.0);
     vector<double> ordered_average(NUM_GENES, 0.0);
+    vector<double> expression_spread(NUM_GENES, 0.0);
+    vector<double> ordered_spread(NUM_GENES, 0.0);
 
     for(int i = 0; i < NUM_GENES; i++){
         for(int j = 0; j < NUM_TISSUES; j++){
@@ -47,7 +50,7 @@ int main(void){
         }
         expression_average[i] /= NUM_TISSUES;
     }
-    ordered_average = expression_average;
+    ordered_average = expression_average; 
     
     double temp;
     for(int i = 0; i < NUM_GENES; i++){
@@ -59,11 +62,40 @@ int main(void){
             }
         }
     }
-
+    cout << "Average" << endl;
     for(int j = 0; j < 5; j++){
         for(int i = 0; i < NUM_GENES; i++){
             if(ordered_average[j] == expression_average[i]){
                 cout << j+1 << " " << ordered_average[j] << " " << gene_names[i] << endl;
+                break;
+            }
+        }
+    }
+
+    for(int i = 0; i < NUM_GENES; i++){
+        for(int j = 0; j < NUM_TISSUES; j++){
+            expression_spread[i] += (expression_matrix[i][j] - expression_average[i])*(expression_matrix[i][j] - expression_average[i]);
+        }
+        expression_spread[i] /= NUM_TISSUES;
+        expression_spread[i] = sqrt(expression_spread[i]) + 0.01;
+        expression_spread[i] = expression_average[i] / expression_spread[i];
+    }
+    ordered_spread = expression_spread;
+
+    for(int i = 0; i < NUM_GENES; i++){
+        for(int j = i; j < NUM_GENES; j++){
+            if(ordered_spread[i] <= ordered_spread[j]){
+                temp = ordered_spread[i];
+                ordered_spread[i] = ordered_spread[j];
+                ordered_spread[j] = temp;
+            }
+        }
+    }
+    cout << "Spread" << endl;
+    for(int j = 0; j < 5; j++){
+        for(int i = 0; i < NUM_GENES; i++){
+            if(ordered_spread[j] == expression_spread[i]){
+                cout << j+1 << " " << ordered_spread[j] << " " << gene_names[i] << endl;
                 break;
             }
         }
