@@ -56,26 +56,25 @@ int main(void){
             double dividend = 0.0;
             double divisor_i = 0.0;
             double divisor_j = 0.0;
-            //int count_i = 0;
-            //int count_j = 0;
-            cerr << "expression_matrix.size()=" << expression_matrix.size() << "\n";
+            int count_i = 0;
+            int count_j = 0;
             for(int k = 0; k < NUM_TISSUES; k++){
-                //if(expression_matrix[i][k] < 1.0){
-                //    count_i++;
-                //}
-                //if(expression_matrix[j][k] < 1.0){
-                //    count_j++;
-                //}
+                if(expression_matrix[i][k] < 1.0){
+                    count_i++;
+                }
+                if(expression_matrix[j][k] < 1.0){
+                    count_j++;
+                }
                 dividend += (expression_matrix[i][k] - expression_average[i]) * (expression_matrix[j][k] - expression_average[j]);
                 divisor_i += (expression_matrix[i][k] - expression_average[i]) * (expression_matrix[i][k] - expression_average[i]);
                 divisor_j += (expression_matrix[j][k] - expression_average[j]) * (expression_matrix[j][k] - expression_average[j]);
             }
-            //if(count_i >= NUM_TISSUES*0.8 || count_j >= NUM_TISSUES*0.8){
-            //    continue;
-            //}
-            //if(divisor_i <= NUM_TISSUES*100 || divisor_j <= NUM_TISSUES*100){
-            //    continue;
-            //}
+            if(count_i >= NUM_TISSUES*0.8 || count_j >= NUM_TISSUES*0.8){
+                continue;
+            }
+            if(divisor_i <= NUM_TISSUES*100 || divisor_j <= NUM_TISSUES*100){
+                continue;
+            }
             cor = dividend / (sqrt(divisor_i) * sqrt(divisor_j));
             if(cor > ordered_cor[4]){
                 ordered_cor[4] = cor;
