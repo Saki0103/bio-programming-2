@@ -25,7 +25,11 @@ void LoadFile(string file_name, vector<string> &base){
 
 int main(void){
     vector<string> base;
-    LoadFile("MATa1", base);
+    string FileName;
+    cout << "enter file name: ";
+    cin >> FileName;
+    //LoadFile("MATa1", base);
+    LoadFile(FileName, base);
     vector<vector<double>> matrix(4, vector<double>(base[0].size(), 0.0));
     vector<vector<double>> score(4, vector<double>(base[0].size(), 0.0));
     vector<double> background = {7519429, 4637676, 4637676,7519429};
@@ -91,10 +95,11 @@ int main(void){
                 if(promoter_base[i][x+j] == 'T') count_hit[i][x] += score[3][j];
             }
         }
+        cout << promoter_name[i] << endl;
         for(int x=0; x<promoter_base[0].size()-base[0].size()+1; x++){
             cout << count_hit[i][x] << " ";
         }
-        cout << endl;
+        cout << endl << endl;
     }
 
     return 0;
