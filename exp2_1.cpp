@@ -81,21 +81,20 @@ int main(void){
         promoter_base[j] = promoter[2*j+1];
     }
 
-    vector<vector<double>> count_hit(promoter_name.size(), vector<double>(promoter_base[0].size()-base.size()+1, 0.0));
-    for(int i=0; i< promoter_name.size(); i++){
-        for(int x=0; promoter_base[0].size()-base.size()+1; x++){
-            for(int j=0; j<base.size(); j++){
+    vector<vector<double>> count_hit(promoter_name.size(), vector<double>(promoter_base[0].size()-base[0].size()+1, 0.0));
+    for(int i=0; i<promoter_name.size(); i++){
+        for(int x=0; x<promoter_base[0].size()-base[0].size()+1; x++){
+            for(int j=0; j<base[0].size(); j++){
                 if(promoter_base[i][x+j] == 'A') count_hit[i][x] += score[0][j];
                 if(promoter_base[i][x+j] == 'C') count_hit[i][x] += score[1][j];
                 if(promoter_base[i][x+j] == 'G') count_hit[i][x] += score[2][j];
                 if(promoter_base[i][x+j] == 'T') count_hit[i][x] += score[3][j];
             }
         }
-        for(int x=0; promoter_base[0].size()-base.size()+1; x++){
-            for(int j=0; j<base.size(); j++){
-                cout << count_hit[i][x] << " ";
-            }
+        for(int x=0; x<promoter_base[0].size()-base[0].size()+1; x++){
+            cout << count_hit[i][x] << " ";
         }
+        cout << endl;
     }
 
     return 0;
