@@ -81,8 +81,7 @@ int main(void){
         promoter_base[j] = promoter[2*j+1];
     }
 
-
-    vector<vector<double>> count_hit(promoter_name.size(), vector<double>(promoter_base.size()-base.size()+1, 0.0));
+    vector<vector<double>> count_hit(promoter_name.size(), vector<double>(promoter_base[0].size()-base.size()+1, 0.0));
     for(int i=0; i< promoter_name.size(); i++){
         for(int x=0; promoter_base[0].size()-base.size()+1; x++){
             for(int j=0; j<base.size(); j++){
