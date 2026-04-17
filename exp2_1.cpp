@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include <fstream>
+#include <random>
 using namespace std;
 
 
@@ -28,13 +29,11 @@ int main(void){
     string FileName;
     cout << "enter file name: ";
     cin >> FileName;
-    //LoadFile("MATa1", base);
     LoadFile(FileName, base);
+
     vector<vector<double>> matrix(4, vector<double>(base[0].size(), 0.0));
-    vector<vector<double>> score(4, vector<double>(base[0].size(), 0.0));
-    vector<double> background = {7519429, 4637676, 4637676,7519429};
 
-
+    //頻度表の作成
     for(int j=0; j<base[0].size(); j++){
         for(int i=0; i<base.size(); i++){
             if(base[i][j] == 'A') matrix[0][j]++;
@@ -44,6 +43,7 @@ int main(void){
         }
     }
 
+    //確率表の作成
     for(int j=0; j<base[0].size(); j++){
         double count = 0.0;
         for(int i=0; i<4; i++){
@@ -55,6 +55,8 @@ int main(void){
         }
     }
 
+    //バックグラウンドの確率表の作成
+    vector<double> background = {7519429, 4637676, 4637676,7519429};
     double count = 0.0;
     for(int i=0; i<4; i++){
         count += background[i];
@@ -63,19 +65,15 @@ int main(void){
         background[i] /= count;
     }
 
+    //スコア表の作成
+    vector<vector<double>> score(4, vector<double>(base[0].size(), 0.0));
     for(int j=0; j<base[0].size(); j++){
         for(int i=0; i<4; i++){
             score[i][j] = log(matrix[i][j] / background[i]);
         }
     }
-    /*
-    for(int j=0; j<base[0].size(); j++){
-        for(int i=0; i<4; i++){
-            cout << score[i][j] << " ";
-        }
-        cout << "\n";
-    }
-    */
+
+    //プロモーター配列ファイルの取得
     vector<string> promoter;
     LoadFile("promoters", promoter);
     vector<string> promoter_name((promoter.size()/2));
@@ -85,6 +83,7 @@ int main(void){
         promoter_base[j] = promoter[2*j+1];
     }
 
+    //プロモーター配列のスコア計算
     vector<vector<double>> count_hit(promoter_name.size(), vector<double>(promoter_base[0].size()-base[0].size()+1, 0.0));
     for(int i=0; i<promoter_name.size(); i++){
         for(int x=0; x<promoter_base[0].size()-base[0].size()+1; x++){
@@ -95,12 +94,39 @@ int main(void){
                 if(promoter_base[i][x+j] == 'T') count_hit[i][x] += score[3][j];
             }
         }
-        cout << promoter_name[i] << endl;
-        for(int x=0; x<promoter_base[0].size()-base[0].size()+1; x++){
-            cout << count_hit[i][x] << " ";
-        }
-        cout << endl << endl;
     }
+
+    //ランダム配列の生成
+    vector<string> random_base(5);
+    for(int x=0; x<5; x++){
+        for(int i=0; i<promoter_base[0].size(); i++){
+            int BaseNumber = rand() % 100 + 1;
+            if(BaseNumber <= 100*background[0]){
+                random_base[x].push_back('A');
+            }else if(BaseNumber <= 100*(background[0] + background[1])){
+              random_base[x].push_back('C');
+            }else if(BaseNumber <= 100*(background[0] + background[1] + background[2])){
+              random_base[x].push_back('G');
+            }else{
+            random_base[x].push_back('T');
+            }
+        }
+    }
+
+    //ランダム配列のスコア計算
+    vector<vector<double>> random_hit(5, vector<double>(promoter_base[0].size()-base[0].size()+1, 0.0));
+    for(int i=0; i<5; i++){
+        for(int x=0; x<promoter_base[0].size()-base[0].size()+1; x++){
+            for(int j=0; j<base[0].size(); j++){
+                if(promoter_base[i][x+j] == 'A') count_hit[i][x] += score[0][j];
+                if(promoter_base[i][x+j] == 'C') count_hit[i][x] += score[1][j];
+                if(promoter_base[i][x+j] == 'G') count_hit[i][x] += score[2][j];
+                if(promoter_base[i][x+j] == 'T') count_hit[i][x] += score[3][j];
+            }
+        }
+    }
+
+
 
     return 0;
 }
