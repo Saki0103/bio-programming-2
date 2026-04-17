@@ -131,16 +131,18 @@ int main(void){
         }
     }
 
-    //ランダム配列のスコアを昇順化
+    //ランダム配列のスコアを降順化
     vector<double> random_hit_sorted(3*(promoter_base[0].size()-base[0].size()+1), 0.0);
     random_hit_sorted = random_hit;
     sort(random_hit_sorted.begin(), random_hit_sorted.end(), greater<double>());
 
-    //p値0.001のときの閾値xの計算
-    double p_value_number = random_hit_sorted.size() * 0.001;
+    //p値を設定したときの閾値xの計算
+    cout << endl << "p-value:" << endl;
+    double p_value;
+    cin >> p_value;
+    double p_value_number = random_hit_sorted.size() * p_value;
     double x_value = random_hit_sorted[p_value_number];
 
-    cout << endl << "p-value:0.001" << endl;
     cout << "x:" << x_value << endl << endl;
 
     //閾値x以上のスコアを持つプロモーター配列
