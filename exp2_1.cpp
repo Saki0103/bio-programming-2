@@ -4,6 +4,7 @@
 #include <string>
 #include <fstream>
 #include <random>
+#include <algorithm>
 using namespace std;
 
 
@@ -97,10 +98,13 @@ int main(void){
     }
 
     //ランダム配列の生成
-    vector<string> random_base(5);
-    for(int x=0; x<5; x++){
+    vector<string> random_base(3);
+    random_device rnd;
+    mt19937 mt(rnd());
+    uniform_int_distribution<> dist(1, 100);
+    for(int x=0; x<3; x++){
         for(int i=0; i<promoter_base[0].size(); i++){
-            int BaseNumber = rand() % 100 + 1;
+            int BaseNumber = dist(mt);
             if(BaseNumber <= 100*background[0]){
                 random_base[x].push_back('A');
             }else if(BaseNumber <= 100*(background[0] + background[1])){
@@ -113,20 +117,45 @@ int main(void){
         }
     }
 
+    
     //ランダム配列のスコア計算
-    vector<vector<double>> random_hit(5, vector<double>(promoter_base[0].size()-base[0].size()+1, 0.0));
-    for(int i=0; i<5; i++){
+    vector<double> random_hit(3*(promoter_base[0].size()-base[0].size()+1), 0.0);
+    for(int i=0; i<3; i++){
         for(int x=0; x<promoter_base[0].size()-base[0].size()+1; x++){
             for(int j=0; j<base[0].size(); j++){
-                if(promoter_base[i][x+j] == 'A') count_hit[i][x] += score[0][j];
-                if(promoter_base[i][x+j] == 'C') count_hit[i][x] += score[1][j];
-                if(promoter_base[i][x+j] == 'G') count_hit[i][x] += score[2][j];
-                if(promoter_base[i][x+j] == 'T') count_hit[i][x] += score[3][j];
+                if(random_base[i][x+j] == 'A') random_hit[x+(i*(promoter_base[0].size()-base[0].size()+1))] += score[0][j];
+                if(random_base[i][x+j] == 'C') random_hit[x+(i*(promoter_base[0].size()-base[0].size()+1))] += score[1][j];
+                if(random_base[i][x+j] == 'G') random_hit[x+(i*(promoter_base[0].size()-base[0].size()+1))] += score[2][j];
+                if(random_base[i][x+j] == 'T') random_hit[x+(i*(promoter_base[0].size()-base[0].size()+1))] += score[3][j];
             }
         }
     }
 
+    //ランダム配列のスコアを昇順化
+    vector<double> random_hit_sorted(3*(promoter_base[0].size()-base[0].size()+1), 0.0);
+    random_hit_sorted = random_hit;
+    sort(random_hit_sorted.begin(), random_hit_sorted.end(), greater<double>());
 
+    /*
+    //ランダム配列のスコアのp値計算
+    vector<vector<double>> p_value(2, vector<double>(ramdom_hit_sorted.size(), 0.0));
+    int number = 0;
+    int count_value = 0;
+    for(int i=0; i<ramdom_hit_sorted.size(); i++){
+        count_value = 0;
+        if(i==0){
+            count_value++;
+        }else if(ramdom_hit_sorted[i-1] == ramdom_hit_sorted[i]){
+            count_value++;
+        }else{
+            count_value++;
+            number++;
+            p_value[0][number] = ramdom_hit_sorted[i];
+            p_value[1][number] = count_value / ramdom_hit_sorted.size();
+            cout << p_value[0][number] << " " << p_value[1][number] << endl;
+        }
+    }
+    */
 
     return 0;
 }
