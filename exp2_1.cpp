@@ -28,7 +28,7 @@ void LoadFile(string file_name, vector<string> &base){
 int main(void){
     vector<string> base;
     string FileName;
-    cout << "enter file name: ";
+    cout << "Motif: ";
     cin >> FileName;
     LoadFile(FileName, base);
 
@@ -136,26 +136,24 @@ int main(void){
     random_hit_sorted = random_hit;
     sort(random_hit_sorted.begin(), random_hit_sorted.end(), greater<double>());
 
-    /*
-    //ランダム配列のスコアのp値計算
-    vector<vector<double>> p_value(2, vector<double>(ramdom_hit_sorted.size(), 0.0));
-    int number = 0;
-    int count_value = 0;
-    for(int i=0; i<ramdom_hit_sorted.size(); i++){
-        count_value = 0;
-        if(i==0){
-            count_value++;
-        }else if(ramdom_hit_sorted[i-1] == ramdom_hit_sorted[i]){
-            count_value++;
-        }else{
-            count_value++;
-            number++;
-            p_value[0][number] = ramdom_hit_sorted[i];
-            p_value[1][number] = count_value / ramdom_hit_sorted.size();
-            cout << p_value[0][number] << " " << p_value[1][number] << endl;
+    //p値0.001のときの閾値xの計算
+    double p_value_number = random_hit_sorted.size() * 0.001;
+    double x_value = random_hit_sorted[p_value_number];
+
+    cout << endl << "p-value:0.001" << endl;
+    cout << "x:" << x_value << endl << endl;
+
+    //閾値x以上のスコアを持つプロモーター配列
+    for(int i=0; i<promoter_name.size(); i++){
+        for(int x=0; x<promoter_base[0].size()-base[0].size()+1; x++){
+            if(count_hit[i][x] >= x_value){
+                cout << "pro:" << promoter_name[i] << endl;
+                cout << "pos：" << x+1 << endl;
+                cout << "hit(" << promoter_base[i].substr(x, base[0].size()) << ") = " << count_hit[i][x] << endl;
+                cout << endl;
+            }
         }
     }
-    */
-
+    
     return 0;
 }
