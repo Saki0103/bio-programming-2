@@ -137,7 +137,7 @@ int main(void){
     sort(random_hit_sorted.begin(), random_hit_sorted.end(), greater<double>());
 
     //p値を設定したときの閾値xの計算
-    cout << endl << "p-value:" << endl;
+    cout << endl << "p-value:";
     double p_value;
     cin >> p_value;
     double p_value_number = random_hit_sorted.size() * p_value;
