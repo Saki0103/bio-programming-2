@@ -54,7 +54,8 @@ void LoadSolubilityFile(string file_name, vector<string> &feature_name, vector<v
     ifs.close();
 }
 
-void DivideDataset(const vector<vector<double>> &dataset, vector<int> &labels, vector<vector<double>> &training_dataset, vector<int> &training_labels, vector<vector<double>> &test_dataset, vector<int> &test_labels, double test_ratio){
+void DivideDataset(const vector<vector<double>> &dataset, vector<int> &labels, vector<vector<double>> &training_dataset, 
+    vector<int> &training_labels, vector<vector<double>> &test_dataset, vector<int> &test_labels, double test_ratio){
     int num_seqs = dataset.size();
     int num_test_seqs = static_cast<int>(num_seqs * test_ratio);
     int num_training_seqs = num_seqs - num_test_seqs;
@@ -92,8 +93,6 @@ void TrainDecisionNode(vector<vector<double>> &training_dataset, vector<int> &tr
         }
         sort(training_dataset_sorted.begin(), training_dataset_sorted.end());
         
-        
-    
         for(int x=0; x<99; x++){
             double gini_left = 0.0;
             double gini_right = 0.0;
@@ -181,7 +180,6 @@ void Evaluation(TreeNode &decision_tree, vector<vector<double>> &test_dataset, v
                 }
             }
         }
-
     }
 
     double accuracy = (TP + TN) / num_test_seqs;
