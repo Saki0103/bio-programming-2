@@ -83,19 +83,7 @@ void DivideDataset(const vector<vector<double>> &dataset, vector<int> &labels, v
 }
 
 void TrainDecisionNode(vector<vector<double>> &training_dataset, vector<int> &training_labels, TreeNode &decision_tree){
-    /*
-    vector<vector<double>> training_dataset_sorted(training_dataset.size(), vector<double>(training_dataset[0].size(), 0.0));
-    for(int i = 0; i < training_dataset.size(); i++){
-        for(int j = 0; j < training_dataset[0].size(); j++){
-            training_dataset_sorted[i][j] = training_dataset[i][j];
-        }
-    }
-    for(int i = 0; i < training_dataset.size(); i++){
-        sort(training_dataset_sorted[i].begin(), training_dataset_sorted[i].end());
-    }
-    */
     double gini_minimum = 1000.0;
-
 
     for(int i=0; i<NUM_FEATURES; i++){
         vector<double> training_dataset_sorted(training_dataset.size(), 0.0);
@@ -104,8 +92,6 @@ void TrainDecisionNode(vector<vector<double>> &training_dataset, vector<int> &tr
         }
         sort(training_dataset_sorted.begin(), training_dataset_sorted.end());
         
-        
-    
         for(int x=0; x<99; x++){
             double gini_left = 0.0;
             double gini_right = 0.0;
@@ -149,14 +135,35 @@ void TrainDecisionNode(vector<vector<double>> &training_dataset, vector<int> &tr
             }
         }
     }
-
     cout << "right class ID: " << decision_tree.right_class_id << endl;
     cout << "left class ID: " << decision_tree.left_class_id << endl;
     cout << "Feature ID: " << decision_tree.feature_id << endl;
     cout << "Threshold: " << decision_tree.threshold << endl;
 }
 
-void Evaluation(TreeNode &decision_tree, vector<vector<double>> &test_dataset, vector<int> &test_labels){
+void TrainDecisionTree(vector<vector<double>> &training_dataset, vector<int> &training_labels, vector<TreeNode> &decision_tree){
+    cout << "first:" << endl;
+    TrainDecisionNode(training_dataset, training_labels, decision_tree[0]);
+    vector<vector<double>> training_dataset_left;
+    vector<int> training_labels_left;
+    vector<vector<double>> training_dataset_right;
+    vector<int> training_labels_right;
+    for(int i = 0; i < training_dataset.size(); i++){
+        if(training_dataset[i][decision_tree[0].feature_id] < decision_tree[0].threshold){
+            training_dataset_left.push_back(training_dataset[i]);
+            training_labels_left.push_back(training_labels[i]);
+        }else{
+            training_dataset_right.push_back(training_dataset[i]);
+            training_labels_right.push_back(training_labels[i]);
+        }
+    }
+    cout << "second_left:" << endl;
+    TrainDecisionNode(training_dataset_left, training_labels_left, decision_tree[1]);
+    cout << "second_right:" << endl;
+    TrainDecisionNode(training_dataset_right, training_labels_right, decision_tree[2]);
+}
+
+void Evaluation_Node(TreeNode &decision_tree, vector<vector<double>> &test_dataset, vector<int> &test_labels){
     int num_test_seqs = test_dataset.size();
     double TP = 0;
     double FP = 0;
@@ -164,7 +171,7 @@ void Evaluation(TreeNode &decision_tree, vector<vector<double>> &test_dataset, v
     double TN = 0;
 
     for(int i = 0; i < num_test_seqs; i++){
-        if(test_dataset[i][decision_tree.feature_id] < decision_tree.threshold){
+        if(test_dataset[i][decision_tree.feature_id] <= decision_tree.threshold){
             if(test_labels[i] == decision_tree.left_class_id){
                 if(test_labels[i] == 1){
                     TP++;
@@ -197,7 +204,7 @@ void Evaluation(TreeNode &decision_tree, vector<vector<double>> &test_dataset, v
     }
 
     double accuracy = (TP + TN) / num_test_seqs;
-    
+
     cout << "Accuracy: " << accuracy << endl;
     cout << "Precision: " << (TP) / (TP + FP) << endl;
     cout << "Recall: " << (TP) / (TP + FN) << endl;
@@ -205,13 +212,31 @@ void Evaluation(TreeNode &decision_tree, vector<vector<double>> &test_dataset, v
     cout << "Confusion Matrix" << endl;
     cout << "TP: " << TP << " FP: " << FP << endl;
     cout << "FN: " << FN << " TN: " << TN << endl;
-    
 }
 
-void TrainDecisionTree(vector<vector<double>> &training_dataset, vector<int> &training_labels, vector<TreeNode> &decision_tree){
-    TrainDecisionNode(training_dataset, training_labels, decision_tree[0]);
+void Evaluation(vector<TreeNode> &decision_tree, vector<vector<double>> &test_dataset, vector<int> &test_labels){
+    cout << "first:" << endl;
+    Evaluation_Node(decision_tree[0], test_dataset, test_labels);
+    vector<vector<double>> test_dataset_left;
+    vector<int> test_labels_left;
+    vector<vector<double>> test_dataset_right;
+    vector<int> test_labels_right;
+    for(int i = 0; i < test_dataset.size(); i++){
+        if(test_dataset[i][decision_tree[0].feature_id] < decision_tree[0].threshold){
+            test_dataset_left.push_back(test_dataset[i]);
+            test_labels_left.push_back(test_labels[i]);
+        }else{
+            test_dataset_right.push_back(test_dataset[i]);
+            test_labels_right.push_back(test_labels[i]);
+        }
+    }
+    cout << "second_left:" << endl;
+    Evaluation_Node(decision_tree[1], test_dataset_left, test_labels_left);
+    cout << "second_right:" << endl;
+    Evaluation_Node(decision_tree[2], test_dataset_right, test_labels_right);
 
 }
+
 int main(void){
     vector<string> feature_name(NUM_FEATURES, "");
     vector<vector<double>> dataset(NUM_SEQS, vector<double>(NUM_FEATURES, 0.0));
@@ -230,7 +255,7 @@ int main(void){
     vector<TreeNode> decision_tree(3);
     TrainDecisionTree(training_dataset, training_labels, decision_tree);
     
-    Evaluation(decision_tree[1], test_dataset, test_labels);
+    Evaluation(decision_tree, test_dataset, test_labels);
 
 
     
