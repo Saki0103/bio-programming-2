@@ -89,7 +89,7 @@ void TrainDecisionNode(vector<vector<double>> &training_dataset, vector<int> &tr
         sort(training_dataset_sorted[i].begin(), training_dataset_sorted[i].end());
     }
 
-    for(int i=0; i<training_dataset.size(); i++){
+    for(int i=0; i<NUM_FEATURES; i++){
         double gini_left = 0.0;
         double gini_right = 0.0;
         double gini = 0.0;
@@ -98,7 +98,7 @@ void TrainDecisionNode(vector<vector<double>> &training_dataset, vector<int> &tr
         double gini_minimum = 1.0;
 
         for(int x=0; x<99; x++){
-            for(int j = 0; j < training_dataset.size(); j++){
+            for(int j = 0; j<training_dataset.size(); j++){
                 if(training_dataset[j][i] < training_dataset_sorted[(training_dataset.size())*(x+1)/100][i]){
                     num_left++;
                     if(training_labels[j] == 1){
