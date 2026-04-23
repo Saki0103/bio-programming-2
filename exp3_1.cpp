@@ -63,7 +63,6 @@ void DivideDataset(const vector<vector<double>> &dataset, vector<int> &labels, v
     for(int i = 0; i < num_seqs; i++){
         numbers[i] = i;
     }
-    // random_device rd;
     mt19937 g(0);
     shuffle(numbers.begin(), numbers.end(), g);
 
@@ -83,17 +82,6 @@ void DivideDataset(const vector<vector<double>> &dataset, vector<int> &labels, v
 }
 
 void TrainDecisionNode(vector<vector<double>> &training_dataset, vector<int> &training_labels, TreeNode &decision_tree){
-    /*
-    vector<vector<double>> training_dataset_sorted(training_dataset.size(), vector<double>(training_dataset[0].size(), 0.0));
-    for(int i = 0; i < training_dataset.size(); i++){
-        for(int j = 0; j < training_dataset[0].size(); j++){
-            training_dataset_sorted[i][j] = training_dataset[i][j];
-        }
-    }
-    for(int i = 0; i < training_dataset.size(); i++){
-        sort(training_dataset_sorted[i].begin(), training_dataset_sorted[i].end());
-    }
-    */
     double gini_minimum = 1000.0;
 
 
