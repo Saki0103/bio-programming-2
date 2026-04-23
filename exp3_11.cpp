@@ -208,6 +208,10 @@ void Evaluation(TreeNode &decision_tree, vector<vector<double>> &test_dataset, v
     
 }
 
+void TrainDecisionTree(vector<vector<double>> &training_dataset, vector<int> &training_labels, vector<TreeNode> &decision_tree){
+    TrainDecisionNode(training_dataset, training_labels, decision_tree[0]);
+
+}
 int main(void){
     vector<string> feature_name(NUM_FEATURES, "");
     vector<vector<double>> dataset(NUM_SEQS, vector<double>(NUM_FEATURES, 0.0));
@@ -223,10 +227,12 @@ int main(void){
 
     DivideDataset(dataset, labels, training_dataset, training_labels, test_dataset, test_labels, test_ratio);
 
-    TreeNode decision_tree;
-    TrainDecisionNode(training_dataset, training_labels, decision_tree);
+    vector<TreeNode> decision_tree(3);
+    TrainDecisionTree(training_dataset, training_labels, decision_tree);
     
-    Evaluation(decision_tree, test_dataset, test_labels);
+    Evaluation(decision_tree[1], test_dataset, test_labels);
+
+
     
     
     return 0;
