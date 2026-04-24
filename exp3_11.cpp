@@ -63,7 +63,8 @@ void DivideDataset(const vector<vector<double>> &dataset, vector<int> &labels, v
     for(int i = 0; i < num_seqs; i++){
         numbers[i] = i;
     }
-    mt19937 g(0);
+    random_device rd;
+    mt19937 g(rd());
     shuffle(numbers.begin(), numbers.end(), g);
 
     training_dataset.resize(num_training_seqs, vector<double>(NUM_FEATURES));
