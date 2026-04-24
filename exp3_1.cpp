@@ -151,7 +151,7 @@ void Evaluation(TreeNode &decision_tree, vector<vector<double>> &test_dataset, v
     double TN = 0;
 
     for(int i = 0; i < num_test_seqs; i++){
-        if(test_dataset[i][decision_tree.feature_id] < decision_tree.threshold){
+        if(test_dataset[i][decision_tree.feature_id] <= decision_tree.threshold){
             if(test_labels[i] == decision_tree.left_class_id){
                 if(test_labels[i] == 1){
                     TP++;
@@ -217,3 +217,4 @@ int main(void){
     
     return 0;
 }
+

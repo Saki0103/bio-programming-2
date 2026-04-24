@@ -90,7 +90,7 @@ void TrainDecisionNode(vector<vector<double>> &training_dataset, vector<int> &tr
             training_dataset_sorted[j] = training_dataset[j][i];
         }
         sort(training_dataset_sorted.begin(), training_dataset_sorted.end());
-        
+
         for(int x=0; x<99; x++){
             double gini_left = 0.0;
             double gini_right = 0.0;
@@ -141,99 +141,72 @@ void TrainDecisionNode(vector<vector<double>> &training_dataset, vector<int> &tr
 }
 
 void TrainDecisionTree(vector<vector<double>> &training_dataset, vector<int> &training_labels, vector<TreeNode> &decision_tree){
-    cout << "first:" << endl;
+    cout << "ーーーーーー" << endl << "【first】" << endl;
     TrainDecisionNode(training_dataset, training_labels, decision_tree[0]);
     vector<vector<double>> training_dataset_left;
     vector<int> training_labels_left;
     vector<vector<double>> training_dataset_right;
     vector<int> training_labels_right;
     for(int i = 0; i < training_dataset.size(); i++){
-        if(training_dataset[i][decision_tree[0].feature_id] < decision_tree[0].threshold){
-            training_dataset_left.push_back(training_dataset[i]);
+        if(training_dataset[i][decision_tree[0].feature_id] <= decision_tree[0].threshold){
             training_labels_left.push_back(training_labels[i]);
+            training_dataset_left.push_back(training_dataset[i]);
         }else{
-            training_dataset_right.push_back(training_dataset[i]);
             training_labels_right.push_back(training_labels[i]);
+            training_dataset_right.push_back(training_dataset[i]);
         }
     }
-    cout << "second_left:" << endl;
+
+    cout << "ーーーーーー" << endl <<"【second_left】" << endl;
     TrainDecisionNode(training_dataset_left, training_labels_left, decision_tree[1]);
-    cout << "second_right:" << endl;
+    cout << "ーーーーーー" << endl << "【second_right】" << endl;
     TrainDecisionNode(training_dataset_right, training_labels_right, decision_tree[2]);
 }
 
-void Evaluation_Node(TreeNode &decision_tree, vector<vector<double>> &test_dataset, vector<int> &test_labels){
+void Evaluation(vector<TreeNode> &decision_tree, vector<vector<double>> &test_dataset, vector<int> &test_labels){
     int num_test_seqs = test_dataset.size();
     double TP = 0;
     double FP = 0;
     double FN = 0;
     double TN = 0;
 
+    vector<double> test_labels_disision(test_labels.size(), 0.0);
     for(int i = 0; i < num_test_seqs; i++){
-        if(test_dataset[i][decision_tree.feature_id] <= decision_tree.threshold){
-            if(test_labels[i] == decision_tree.left_class_id){
-                if(test_labels[i] == 1){
-                    TP++;
-                }else{
-                    TN++;
-                }
+        if(test_dataset[i][decision_tree[0].feature_id] <= decision_tree[0].threshold){
+            if(test_dataset[i][decision_tree[1].feature_id] <= decision_tree[1].threshold){
+                test_labels_disision[i] = decision_tree[1].left_class_id;
             }else{
-                if(test_labels[i] == 1){
-                    FN++;
-                }else{
-                    FP++;
-                }
+                test_labels_disision[i] = decision_tree[1].right_class_id;
             }
         }else{
-            if(test_labels[i] == decision_tree.right_class_id){
-                if(test_labels[i] == 1){
-                    TP++;
-                }else{
-                    TN++;
-                }
+            if(test_dataset[i][decision_tree[2].feature_id] <= decision_tree[2].threshold){
+                test_labels_disision[i] = decision_tree[2].left_class_id;
             }else{
-                if(test_labels[i] == 1){
-                    FN++;
-                }else{
-                    FP++;
-                }
+                test_labels_disision[i] = decision_tree[2].right_class_id;
             }
         }
-
+    }
+    for(int i = 0; i < num_test_seqs; i++){
+        if(test_labels_disision[i] == 1 && test_labels[i] == 1){
+            TP++;
+        }else if(test_labels_disision[i] == 0 && test_labels[i] == 0){
+            TN++;
+        }else if(test_labels_disision[i] == 1 && test_labels[i] == 0){
+            FP++;
+        }else if(test_labels_disision[i] == 0 && test_labels[i] == 1){
+            FN++;
+        }
     }
 
     double accuracy = (TP + TN) / num_test_seqs;
 
-    cout << "Accuracy: " << accuracy << endl;
+    cout << "ーーーーーー" << endl << "【Evaluation Results】" << endl << "Accuracy: " << accuracy << endl;
     cout << "Precision: " << (TP) / (TP + FP) << endl;
     cout << "Recall: " << (TP) / (TP + FN) << endl;
     cout << "F-score: " << (2.0 * ((TP) / (TP + FP))*((TP) / (TP + FN))) / (((TP) / (TP + FP)) + ((TP) / (TP + FN))) << endl;
     cout << "Confusion Matrix" << endl;
     cout << "TP: " << TP << " FP: " << FP << endl;
-    cout << "FN: " << FN << " TN: " << TN << endl;
-}
-
-void Evaluation(vector<TreeNode> &decision_tree, vector<vector<double>> &test_dataset, vector<int> &test_labels){
-    cout << "first:" << endl;
-    Evaluation_Node(decision_tree[0], test_dataset, test_labels);
-    vector<vector<double>> test_dataset_left;
-    vector<int> test_labels_left;
-    vector<vector<double>> test_dataset_right;
-    vector<int> test_labels_right;
-    for(int i = 0; i < test_dataset.size(); i++){
-        if(test_dataset[i][decision_tree[0].feature_id] < decision_tree[0].threshold){
-            test_dataset_left.push_back(test_dataset[i]);
-            test_labels_left.push_back(test_labels[i]);
-        }else{
-            test_dataset_right.push_back(test_dataset[i]);
-            test_labels_right.push_back(test_labels[i]);
-        }
-    }
-    cout << "second_left:" << endl;
-    Evaluation_Node(decision_tree[1], test_dataset_left, test_labels_left);
-    cout << "second_right:" << endl;
-    Evaluation_Node(decision_tree[2], test_dataset_right, test_labels_right);
-
+    cout << "FN: " << FN << " TN: " << TN << endl << "ーーーーーー" << endl;
 }
 
 int main(void){
@@ -256,8 +229,5 @@ int main(void){
     
     Evaluation(decision_tree, test_dataset, test_labels);
 
-
-    
-    
     return 0;
 }
